@@ -31,7 +31,7 @@ void mouseDragged()
   else
   {
     fill(0);
-    ellipse(mouseX,mouseY,10,10);
+    ellipse(mouseX,mouseY,30,30);
   }
 
 
