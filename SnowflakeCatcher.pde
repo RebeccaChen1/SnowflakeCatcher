@@ -31,7 +31,7 @@ void mouseDragged()
   else
   {
     fill(0);
-    ellipse(mouseX,mouseY,10,10);
+    ellipse(mouseX,mouseY,30,30);
   }
 
 
@@ -60,11 +60,11 @@ class SnowFlake
   }
   void lookDown()
   {
-    if(get(x+2,y+5) !=color(0,0,0))
+    if(get(x+3,y+5) !=color(0,0,0))
     {
       isMoving=false;
     }
-    else if(get(x-2,y+5) !=color(0,0,0))
+    else if(get(x-3,y+5) !=color(0,0,0))
     {
       isMoving=false;
     }
