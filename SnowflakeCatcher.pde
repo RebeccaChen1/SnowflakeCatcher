@@ -1,10 +1,12 @@
 SnowFlake [] snow;
+Runner bob;
 void setup()
 {
-  size(400,400);
+  size(405,405);
   background(0);
   noStroke();
-  snow=new SnowFlake[100];
+  bob=new Runner();
+  snow=new SnowFlake[200];
   for(int i=0; i<snow.length; i++)
   {
     snow[i]=new SnowFlake();
@@ -12,8 +14,15 @@ void setup()
 }
 void draw()
 {
+  bob.check();
+  bob.show();
+  bob.move();
   for(int i=0; i<snow.length;i++)
   {
+    if(i%100==0)
+    {
+      fill(0,255,0);
+    }
     snow[i].erase();
     snow[i].lookDown();
     snow[i].move();
@@ -37,8 +46,6 @@ void mouseDragged()
 
 }
 
-
-
 class SnowFlake
 {
   int x;
@@ -48,7 +55,7 @@ class SnowFlake
 
   SnowFlake()
   {
-    x=(int)(Math.random()*400);
+    x=(int)(Math.random()*385+15);
     y=(int)(Math.random()*400);
     myColor=color(255,255,255);
     isMoving=true;
@@ -88,10 +95,83 @@ class SnowFlake
   }
   void wrap()
   {
-    if(y>390)
+    if(y>399)
     {
       y=0;
       x=(int)(Math.random()*400);
     }
+  }
+}
+class Runner
+{  
+  int myX;
+  int myY;
+  int colorx;
+  int direction;
+  float size;
+  boolean isMoving;
+  Runner()
+  {
+    myX=(int)(Math.random()*400);
+    myY=(int)(Math.random()*400);
+    direction=(int)(Math.random()*4+1);
+    isMoving=true;
+    size=8.0;
+    colorx=250;
+  }
+  void show()
+  {
+    fill(colorx,0,0);
+    ellipse(myX,myY,size,size);
+  }
+  void move()
+  { 
+  if (key==CODED && isMoving==true)
+  {
+    if (keyCode==UP)
+    {
+     myY--;
+     if(myY<0)
+     {
+       myY=405;
+     }
+    }
+    if (keyCode==DOWN)
+    {
+      myY++;
+      if(myY>405)
+      {
+        myY=0;
+      }
+    }
+    if (keyCode==RIGHT)
+    {
+      myX++;
+      if(myX>405)
+      {
+        myX=0;
+      }
+    }
+    if (keyCode==LEFT)
+    {
+      myX--;
+      if(myX<0)
+      {
+        myX=405;
+      }
+    }
+  }
+  }
+  void check()
+  {
+    if(get(myX+4,myY)==color(255,255,255) || get(myX,myY-4)==color(255,255,255))
+    {
+      isMoving=false;
+      fill(0);
+      rect(0,0,405,405);
+      myX=(int)(Math.random()*400);
+      myY=(int)(Math.random()*400);
+      isMoving=true;
+    }     
   }
 }
