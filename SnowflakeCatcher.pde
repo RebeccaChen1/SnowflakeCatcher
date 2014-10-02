@@ -1,21 +1,40 @@
+int aColor=color(255,255,255);
+
 SnowFlake [] snow;
 Runner bob;
 void setup()
 {
+  frameRate(40);
   size(405,405);
   background(0);
   noStroke();
   bob=new Runner();
-  snow=new SnowFlake[200];
+  snow=new SnowFlake[100];
   for(int i=0; i<snow.length; i++)
   {
-    snow[i]=new SnowFlake();
+    if(i%7==0)
+    {
+      snow[i]=new SnowFlake(color(0,255,0));
+    }
+    else if(i%8==0)
+    {
+      snow[i]=new SnowFlake(color(255,0,0));
+    }
+    else if (i%9==0)
+    {
+      snow[i]=new SnowFlake(color(0,0,255));
+    }
+    else 
+    {
+      snow[i]=new SnowFlake(color(255,255,255));
+    }
   }
 }
 void draw()
 {
   bob.check();
   bob.show();
+  bob.change();
   bob.move();
   for(int i=0; i<snow.length;i++)
   {
@@ -53,11 +72,11 @@ class SnowFlake
   int myColor;
   boolean isMoving;
 
-  SnowFlake()
+  SnowFlake(int aColor)
   {
     x=(int)(Math.random()*385+15);
     y=(int)(Math.random()*400);
-    myColor=color(255,255,255);
+    myColor=aColor;
     isMoving=true;
   }
   void show()
@@ -107,6 +126,8 @@ class Runner
   int myX;
   int myY;
   int colorx;
+  int colory;
+  int colorz;
   int direction;
   float size;
   boolean isMoving;
@@ -117,11 +138,13 @@ class Runner
     direction=(int)(Math.random()*4+1);
     isMoving=true;
     size=8.0;
-    colorx=250;
+    colorx=100;
+    colory=100;
+    colorz=100;
   }
   void show()
   {
-    fill(colorx,0,0);
+    fill(colorx,colory,colorz);
     ellipse(myX,myY,size,size);
   }
   void move()
@@ -130,7 +153,7 @@ class Runner
   {
     if (keyCode==UP)
     {
-     myY--;
+     myY=myY-2;
      if(myY<0)
      {
        myY=405;
@@ -138,7 +161,7 @@ class Runner
     }
     if (keyCode==DOWN)
     {
-      myY++;
+      myY=myY+2;
       if(myY>405)
       {
         myY=0;
@@ -146,7 +169,7 @@ class Runner
     }
     if (keyCode==RIGHT)
     {
-      myX++;
+      myX=myX+2;
       if(myX>405)
       {
         myX=0;
@@ -154,7 +177,7 @@ class Runner
     }
     if (keyCode==LEFT)
     {
-      myX--;
+      myX=myX-2;
       if(myX<0)
       {
         myX=405;
@@ -171,7 +194,25 @@ class Runner
       rect(0,0,405,405);
       myX=(int)(Math.random()*400);
       myY=(int)(Math.random()*400);
+      colorx=100;
+      colory=100;
+      colorz=100;
       isMoving=true;
     }     
+  }
+  void change()
+  {
+    if(get(myX+4,myY)==color(0,255,0) || get(myX,myY-4)==color(0,255,0))
+    {
+      colory=colory+25;
+    }
+    else if(get(myX+4,myY)==color(255,0,0) || get(myX,myY-4)==color(255,0,0))
+    {
+      colorx=colorx+25;
+    }
+    else if(get(myX+4,myY)==color(0,0,255) || get(myX,myY-4)==color(0,0,255))
+    {
+      colorz=colorz+25;
+    }
   }
 }
